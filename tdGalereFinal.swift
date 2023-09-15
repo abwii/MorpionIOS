@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct ContentView: View {
+
+	//declarations des elements utilises dans le code
     @State private var grid = ["", "", "", "", "", "", "", "", ""]
     @State private var currentPlayer = "X"
     @State private var showingpopover = false
@@ -25,6 +27,8 @@ struct ContentView: View {
                         ForEach(0..<3) { col in
                             Button(action: {
                                 if playing {
+					// verifier si la case dans la table de morpion est vide, si oui, changer la case en fonction du joueur en cours, verifie a chaque fois si
+					// un joueur a gagne ou si la partie ne s'est pas termine par un egalite, sans ces deux conditions, le jeu continue et on change de joueur
                                     if grid[row * 3 + col].isEmpty {
                                         grid[row * 3 + col] = currentPlayer
                                         winVerif()
@@ -37,6 +41,7 @@ struct ContentView: View {
                                     .font(.largeTitle)
                                     .frame(width: 100, height: 100)
                                     .background(
+					// si un joeur gagne, colories les cases qui ont menees a la victoire du joueur
                                         winningCells.contains(row * 3 + col) ? Color.red : Color.black
                                     )
                                     .foregroundColor(.white)
@@ -50,6 +55,8 @@ struct ContentView: View {
 
             Spacer()
 
+		// le bouton recommencer fait recommencer toute la partie, on devra a nouveau choisir quel joueur commence ('X' ou 'O'), on reinitialise le tabbleau 
+		// des resultats a vide et on donne la permission de jouer, les cases precedement colores dans le cas d'une victoire d'un joueur redevienne normales
             Button("Recommencer") {
                 showingpopoverselect = true
                 grid = ["", "", "", "", "", "", "", "", ""]
@@ -59,13 +66,14 @@ struct ContentView: View {
             .foregroundColor(.black)
         }
 
+		
         .popover(isPresented: $showingpopover) {
             Text(phrase)
                 .font(.headline)
                 .padding()
         }
         
-        
+        	//popover permettant de choisir le joueur qui commence, celui-ci se lance au lancement de l'application ainsi qu'au moment ou on choisit de recommencer
         .popover(isPresented: $showingpopoverselect) {
             Text("Qui commence ?")
                 .font(.headline)
@@ -89,12 +97,15 @@ struct ContentView: View {
         
     }
 
+	//fonction permettant de passer d'un joueur a l'autre
     private func togglePlayer() {
         currentPlayer = (currentPlayer == "X") ? "O" : "X"
     }
 
+	//fonction permettant de verifier si un joeur a gagne
     private func winVerif() {
         print("vérif joueur " + currentPlayer + "...")
+		// dans ce tableau on retrouve toutes les conditions de victoire dans un morpion classique
         let win = [
             [0, 1, 2],
             [3, 4, 5],
@@ -105,7 +116,9 @@ struct ContentView: View {
             [0, 4, 8],
             [2, 4, 6]
         ]
-
+		// on boucle dans le tableau des valeurs pour gagner, si la valeur de l'indexe indiquant le joeur actuel ('X' ou 'O') dans la liste grid est different 
+		// des valeurs situes aux indexes gagnates, alors le joueur actuel n'a pas gagne. Dans le cas ou celui-ci gagne, la partie est termineet on fait un affichage
+		// d'une partie gagnee
         for sequence in win {
             var playerWon = true
 
@@ -127,6 +140,7 @@ struct ContentView: View {
         }
     }
 
+		// cette fonction permet de verifier s'il n'y a pas une egalite (aucun joeur gagne et toutes les cases sont remplies)
     private func drawVerif() {
         let allNonEmpty = grid.allSatisfy { element in
             return !element.isEmpty
