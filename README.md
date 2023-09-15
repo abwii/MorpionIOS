@@ -30,6 +30,7 @@ Ce projet Morpion (Tic-Tac-Toe) SwiftUI est une implémentation d'un jeu classiq
 - [Mathématiques-Lycée - Fonction Affine](https://www.mathematiques-lycee.com/2nde-05-fonction-affine.html)
 - [Wikipedia - Fonction Affine](https://fr.wikipedia.org/wiki/Fonction_affine)
 - [Hacking with Swift - The Ultimate Guide to Timer](https://www.hackingwithswift.com/articles/117/the-ultimate-guide-to-timer)
+- [Open Classroom - Jeu Du Morpion Sur Console](https://openclassrooms.com/forum/sujet/le-jeu-le-morpion-en-console)
 
 ---
 
